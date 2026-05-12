@@ -17,15 +17,15 @@
     </nav>
   <div id="app"></div>
   <script>
-      if (!location.hash || location.hash === '#/' || location.hash === '#') {
+      if (!location.hash || location.hash === '#' || location.hash === '#/') {
           location.replace(location.pathname + location.search + '#/en/getting_started');
       }
 
       window.$docsify = {
           name: 'XClouds',
           nameLink: {
-              '/ru/': '#/ru/',
-              '/en/': '#/en/',
+              '/ru/': '#/ru/getting_started',
+              '/en/': '#/en/getting_started',
           },
           loadSidebar: true,
           loadNavbar: true,
