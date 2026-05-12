@@ -1,8 +1,8 @@
 <!-- docs/ru/_sidebar.md -->
-- **Русский**
 
-- [Что такое XClouds](/ru/getting_started)
-
-- **English**
-
-- [What is XClouds](/en/getting_started)
+- [Обзор](/ru/getting_started)
+- Примеры
+  - [Dev tunnel](/ru/examples/dev_tunnel)
+  - [Selenium](/ru/examples/selenium)
+  - [Playwright](/ru/examples/playwright)
+  - [Puppeteer и CDP](/ru/examples/puppeteer_cdp)
