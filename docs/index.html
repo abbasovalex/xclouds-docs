@@ -18,11 +18,11 @@
   <div id="app"></div>
   <script>
       if (!location.hash || location.hash === '#' || location.hash === '#/') {
-          location.replace(location.pathname + location.search + '#/en/getting_started');
+          location.replace(location.pathname + location.search + '#/ru/getting_started');
       }
 
       window.$docsify = {
-          name: 'XClouds',
+          name: 'xClouds',
           nameLink: {
               '/ru/': '#/ru/getting_started',
               '/en/': '#/en/getting_started',
@@ -36,8 +36,8 @@
               '/en/(.*)': '/en/$1'
           },
           maxLevel: 4,
-          subMaxLevel: 3,
-          homepage: 'en/getting_started.md'
+          subMaxLevel: 1,
+          homepage: 'ru/getting_started.md'
       }
   </script>
   <!-- Docsify v4 -->

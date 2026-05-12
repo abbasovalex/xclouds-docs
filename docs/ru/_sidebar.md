@@ -1,6 +1,6 @@
 <!-- docs/ru/_sidebar.md -->
 
-- [Обзор](/ru/getting_started)
+- [Быстрый старт](/ru/getting_started)
 - Примеры
   - [Dev tunnel](/ru/examples/dev_tunnel)
   - [Selenium](/ru/examples/selenium)
