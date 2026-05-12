@@ -1,4 +1,8 @@
 <!-- docs/en/_sidebar.md -->
-- [**What is Xclouds**](/en/getting_started)
+- **English**
 
-  
+- [What is XClouds](/en/getting_started)
+
+- **Русский**
+
+- [Что такое XClouds](/ru/getting_started) 

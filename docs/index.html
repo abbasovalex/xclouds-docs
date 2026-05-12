@@ -6,24 +6,42 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="XClouds Documentation">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="mask-icon" href="/safari-icon.svg" color="#107ddd">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 </head>
 <body>
+    <nav>
+        <a href="#/en/getting_started">EN</a>
+        <a href="#/ru/getting_started">RU</a>
+    </nav>
   <div id="app"></div>
   <script>
-    window.$docsify = {
-      name: 'XClouds',
-      loadSidebar: 'en/_sidebar.md',
-      maxLevel: 4,
-      subMaxLevel: 3,
-      homepage: 'en/getting_started.md',
-    }
+      window.$docsify = {
+          name: 'XClouds',
+          nameLink: {
+              '/ru/': '#/ru/',
+              '/en/': '#/en/',
+          },
+          loadSidebar: true,
+          loadNavbar: true,
+          alias: {
+              '/en/.*/_sidebar.md': '/en/_sidebar.md',
+              '/ru/.*/_sidebar.md': '/ru/_sidebar.md',
+              '/ru/(.*)': '/ru/$1',
+              '/en/(.*)': '/en/$1'
+          },
+          maxLevel: 4,
+          subMaxLevel: 3,
+          homepage: 'en/getting_started.md',
+      }
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-go.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-nginx.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/front-matter.min.js"></script>
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
