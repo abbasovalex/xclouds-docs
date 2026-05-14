@@ -1,23 +1,29 @@
-# Пример Dev Tunnel
+# Dev Tunnel / Туннель для разработки
 
-Используйте xClouds dev tunnel, когда внешний сервис должен вызвать приложение, которое пока запущено на вашем ноутбуке. Это подходит для webhooks, callbacks, демо и браузерных тестов локального сервера.
+Туннель пригодится на этапе разработки и тестирования чат-ботов, платежных сервисов и других API, где вам нужно принимать данные через веб-хуки / webhooks.
+На нашей платформе вы за пару секунд получите домен с поддержкой HTTPS вида xxxxx.tunnel.xclouds.dev через который откроется прямой доступ к запущенному сайту или приложению на вашем ПК/ноутбуке.
+Таким образом, когда сторонний сервис будет отправлять вам данные на xxxxx.tunnel.xclouds.dev вы будете получать и обрабатывать их прямо на своем localhost.
+Это сильно сэкономит вам силы, нервы и избавит от поиска сложных решений.
 
-## Что получится
+<p class="tip">
+    Обратите внимание на то, что туннель предназначен только для разработки и тестирования.
+    Не используйте его в production среде.
+</p>
 
-Вы откроете локальное приложение на порту `8080` через публичный HTTPS URL xClouds.
+## Установка
 
-## 1. Скачайте CLI
+#### 1. Скачайте наш клиент на свой ПК / ноутбук
 
-Выберите архив для своей платформы в приложении xClouds.
+- macOS Apple Silicon: [xclouds-darwin-arm64.zip](https://xclouds.dev/staticfiles/xclouds-cli/releases/xclouds-darwin-arm64.zip)
+- macOS Intel: [xclouds-darwin-amd64.zip](https://xclouds.dev/staticfiles/xclouds-cli/releases/xclouds-darwin-amd64.zip)
+- Linux x86-64: [xclouds-linux-amd64.tar.gz](https://xclouds.dev/staticfiles/xclouds-cli/releases/xclouds-linux-amd64.tar.gz)
+- Linux ARM64: [xclouds-linux-arm64.tar.gz](https://xclouds.dev/staticfiles/xclouds-cli/releases/xclouds-linux-arm64.tar.gz)
+- Windows x86-64: [xclouds-windows-amd64.zip](https://xclouds.dev/staticfiles/xclouds-cli/releases/xclouds-windows-amd64.zip)
+- Windows ARM64: [xclouds-windows-arm64.zip](https://xclouds.dev/staticfiles/xclouds-cli/releases/xclouds-windows-arm64.zip)
 
-- macOS Apple Silicon: `xclouds-darwin-arm64.zip`
-- macOS Intel: `xclouds-darwin-amd64.zip`
-- Linux x86-64: `xclouds-linux-amd64.tar.gz`
-- Linux ARM64: `xclouds-linux-arm64.tar.gz`
-- Windows x86-64: `xclouds-windows-amd64.zip`
-- Windows ARM64: `xclouds-windows-arm64.zip`
+#### 2. Распакуйте и установите клиент
 
-## 2. Установка на macOS
+###### macOS
 
 ```bash
 unzip ~/Downloads/xclouds-darwin-arm64.zip
@@ -26,7 +32,7 @@ xattr -d com.apple.quarantine ~/Downloads/dist/xclouds-darwin-arm64 2>/dev/null 
 sudo mv ~/Downloads/dist/xclouds-darwin-arm64 /usr/local/bin/xclouds
 ```
 
-## 3. Установка на Linux
+###### Linux
 
 ```bash
 tar -xvzf ~/Downloads/xclouds-linux-amd64.tar.gz
@@ -34,28 +40,32 @@ chmod +x ~/Downloads/dist/xclouds-linux-amd64
 sudo mv ~/Downloads/dist/xclouds-linux-amd64 /usr/local/bin/xclouds
 ```
 
-## 4. Установка на Windows
+###### Windows
 
 ```powershell
 unzip C:\Users\YourName\Downloads\xclouds-windows-amd64.zip
 move "C:\Users\YourName\Downloads\dist\xclouds-windows-amd64.exe" "C:\Program Files\MyApp\xclouds.exe"
 ```
 
-## 5. Запустите локальное приложение
+#### 3. Запустите своё локальное приложение или сайт
 
-Запустите любой локальный сервер на порту `8080`.
-
+Если у вас еще нет своего сайта / приложения, для демонстрации возможности запустите в терминале следующую команду:
 ```bash
 python -m http.server 8080
 ```
 
-Ожидаемый локальный URL:
+После этого вы сможете открыть в своем браузере адрес сайта:
 
 ```text
 http://localhost:8080
 ```
 
-## 6. Запустите tunnel
+## Запуск туннеля
+Пока только вы можете видеть то, что открывается по http://localhost:8080. Давайте временно свяжем этот адрес с публичным доменом, тогда 
+любой желающий сможет видеть и отправлять данные на этот адрес. Запустите следующую команду. Обратите внимание на то, что вместо 
+_YOUR_TUNNEL_TOKEN_ вам надо указать свой ключ. Ключ находится в личном кабинете на xclouds.dev
+
+**macOS/Linux:**
 
 ```bash
 xclouds tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
@@ -67,33 +77,34 @@ xclouds tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
 ~/Downloads/dist/xclouds-darwin-arm64 tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
 ```
 
-На Windows:
+**Windows:**
 
 ```powershell
 xclouds tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
 C:\Users\YourName\Downloads\dist\xclouds-windows-amd64.exe tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
 ```
 
-## 7. Проверьте
+После запуска вы увидите свой публичный домен. Поздравляем, теперь вы можете выслать публичный домен коллегам или указать для приема веб-хуков / webhooks:
 
-Откройте назначенный tunnel URL в браузере или вставьте его в настройки webhook сервиса, который вы тестируете.
+```bash
+Prepare tunneling ...
+✓ Session status: online
+✓ Forwarding https://xxxxxxxx-xxxx.tunnel.xclouds.dev → http://localhost:8080
 
-Ожидаемый результат:
-
-```text
-Внешний запрос приходит на ваш локальный сервер на порту 8080.
+Press Ctrl+C to stop
 ```
 
-## Частые ошибки
+<p class="warn">
+    Ваш домен не меняется. Он будет сохраняться при перезапусках. При желании вы можете сменить домен.
+</p>
 
-| Симптом | Возможная причина | Как исправить |
-| --- | --- | --- |
-| URL не отвечает | Локальное приложение не запущено | Сначала проверьте `http://localhost:8080` |
-| Отвечает не то приложение | Неверный порт | Запустите tunnel с тем же портом, где работает приложение |
-| `command not found` | CLI не добавлен в `PATH` | Запустите бинарник по полному пути или перенесите его в `/usr/local/bin` |
-| macOS блокирует бинарник | Остался quarantine flag | Выполните `xattr -d com.apple.quarantine ...` |
-| Внешний сервис не принимает URL | Ему нужен HTTPS | Используйте публичный HTTPS URL xClouds, а не `localhost` |
 
-## Для production
+## Возможные ошибки
 
-Dev tunnel предназначен для разработки и тестирования. Для production callbacks используйте стабильный production URL и проверяйте каждый входящий запрос по документации внешнего сервиса.
+| Симптом                                                | Возможная причина | Как исправить                                                                                         |
+|--------------------------------------------------------| --- |-------------------------------------------------------------------------------------------------------|
+| URL не отвечает                                        | Локальное приложение не запущено | Сначала проверьте `http://localhost:8080`                                                             |
+| Отвечает не то приложение                              | Неверный порт | Запустите tunnel с тем же портом, где работает приложение                                             |
+| `command not found`                                    | CLI не добавлен в `PATH` | Запустите бинарник по полному пути или перенесите его в `/usr/local/bin`                              |
+| macOS блокирует бинарник или пугает недоверием к файлу | Остался quarantine flag | Выполните `xattr -d com.apple.quarantine ~/Downloads/dist/xclouds-darwin-arm64 2>/dev/null \|\| true` |
+| Внешний сервис не принимает URL                        | Ему нужен HTTPS | Используйте публичный HTTPS URL вида https://xxxxxxxx-xxxx.tunnel.xclouds.dev, а не `localhost:8080`  |
