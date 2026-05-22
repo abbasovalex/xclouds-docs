@@ -7,9 +7,11 @@
   - [Puppeteer и CDP](/ru/examples/puppeteer_cdp)
 - **Dev tunnel**
   - [Запуск туннеля](/ru/examples/dev_tunnel)
+- **Cookbook**
+  - [Передача Cookies](/ru/cookbook/pass_cookies)
 - **Интеграции**
   - Разработка Telegram бота
-  - VK Mimi Apps
+  - Разработка VK Mini Apps
   - Jivo
   - Подключение к Точка банку
   - Подключение ЮMoney
