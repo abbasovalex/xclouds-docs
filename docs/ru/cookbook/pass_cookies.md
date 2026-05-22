@@ -1,14 +1,16 @@
-# Как передать cookies в браузер xClouds
+# Передача cookies в браузеры
 
-xClouds запускает удаленный браузер для Selenium, Playwright и Puppeteer/CDP. Если тесту нужна уже авторизованная сессия, можно добавить cookies перед открытием страницы и не проходить логин руками в каждом запуске.
+Зачастую требуется передавать cookies для сложных сценариев тестирования.
+Также передача cookies требуется при большинстве задач парсинга/скрапинга открытых данных.
+В Selenium, Playwright и Puppeteer/CDP для этого есть специальные методы. Мы подготовили простые примеры, которые помогут вам подключить и использовать cookies в тестах и скриптах по сбору данных.
 
-Ниже три коротких примера. Во всех примерах cookie добавляется для домена `example.com`, а затем скрипт открывает этот домен и проверяет, что cookie есть в браузере.
+Ниже три коротких примера. Во всех примерах cookie добавляется для домена `httpbin.org`, а затем скрипт открывает `https://httpbin.org/cookies`. Этот сервис возвращает JSON с cookies, которые получил от браузера.
 
 ## Что нужно
 
 - API key из xClouds для нужного endpoint.
 - Cookie с правильным `name`, `value`, `domain` и `path`.
-- Домен должен совпадать с сайтом, который вы открываете. Cookie для `example.com` не будет работать на `google.com`.
+- Домен должен совпадать с сайтом, который вы открываете. Cookie для `httpbin.org` не будет работать на другом домене.
 
 ## Selenium
 
@@ -30,7 +32,7 @@ driver = webdriver.Remote(
 )
 
 try:
-    driver.get("https://example.com")
+    driver.get("https://httpbin.org")
 
     driver.add_cookie({
         "name": "session_id",
@@ -38,8 +40,8 @@ try:
         "path": "/",
     })
 
-    driver.refresh()
-    print(driver.get_cookie("session_id"))
+    driver.get("https://httpbin.org/cookies")
+    print(driver.find_element("tag name", "body").text)
 finally:
     driver.quit()
 ```
@@ -47,7 +49,11 @@ finally:
 Ожидаемый результат:
 
 ```text
-{'name': 'session_id', 'value': 'demo-cookie-value', ...}
+{
+  "cookies": {
+    "session_id": "demo-cookie-value"
+  }
+}
 ```
 
 ## Playwright
@@ -70,14 +76,14 @@ const context = await browser.newContext();
 await context.addCookies([{
   name: 'session_id',
   value: 'demo-cookie-value',
-  domain: 'example.com',
+  domain: 'httpbin.org',
   path: '/',
 }]);
 
 const page = await context.newPage();
-await page.goto('https://example.com');
+await page.goto('https://httpbin.org/cookies');
 
-console.log(await context.cookies('https://example.com'));
+console.log(await page.textContent('body'));
 
 await browser.close();
 ```
@@ -85,9 +91,11 @@ await browser.close();
 Ожидаемый результат:
 
 ```text
-[
-  { name: 'session_id', value: 'demo-cookie-value', domain: 'example.com', ... }
-]
+{
+  "cookies": {
+    "session_id": "demo-cookie-value"
+  }
+}
 ```
 
 ## Puppeteer
@@ -110,14 +118,14 @@ const context = browser.defaultBrowserContext();
 await context.setCookie({
   name: 'session_id',
   value: 'demo-cookie-value',
-  domain: 'example.com',
+  domain: 'httpbin.org',
   path: '/',
 });
 
 const page = await context.newPage();
-await page.goto('https://example.com');
+await page.goto('https://httpbin.org/cookies');
 
-console.log(await context.cookies());
+console.log(await page.$eval('body', element => element.innerText));
 
 await browser.close();
 ```
@@ -125,17 +133,19 @@ await browser.close();
 Ожидаемый результат:
 
 ```text
-[
-  { name: 'session_id', value: 'demo-cookie-value', domain: 'example.com', ... }
-]
+{
+  "cookies": {
+    "session_id": "demo-cookie-value"
+  }
+}
 ```
 
 ## Частые ошибки
 
 | Симптом | Возможная причина | Как исправить |
 | --- | --- | --- |
-| Cookie не появилась | Домен cookie не совпадает с доменом страницы | Используйте тот же домен, например `example.com` для `https://example.com` |
-| Selenium выдает ошибку при `add_cookie()` | Браузер еще не открыт на нужном домене | Сначала вызовите `driver.get("https://example.com")` |
+| Cookie не появилась | Домен cookie не совпадает с доменом страницы | Используйте тот же домен, например `httpbin.org` для `https://httpbin.org/cookies` |
+| Selenium выдает ошибку при `add_cookie()` | Браузер еще не открыт на нужном домене | Сначала вызовите `driver.get("https://httpbin.org")` |
 | Сайт все равно просит логин | Передана не вся сессия | Проверьте, какие cookies реально нужны приложению |
 | Cookie видна в коде, но не в `document.cookie` | У cookie стоит флаг `HttpOnly` | Это нормально: браузер отправляет такую cookie на сервер, но JavaScript ее не читает |
 | Пример не подключается к xClouds | Неверный endpoint или API key | Проверьте URL и замените `YOUR_API_KEY` на свой ключ |
@@ -146,6 +156,7 @@ await browser.close();
 
 ## Источники
 
+- httpbin — https://httpbin.org/
 - Selenium WebDriver: Cookies — https://www.selenium.dev/documentation/webdriver/interactions/cookies/
 - Playwright: BrowserContext `addCookies` — https://playwright.dev/docs/api/class-browsercontext#browser-context-add-cookies
 - Puppeteer: BrowserContext `setCookie` — https://pptr.dev/api/puppeteer.browsercontext.setcookie
