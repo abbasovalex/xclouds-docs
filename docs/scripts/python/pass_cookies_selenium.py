@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import time
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -15,6 +16,8 @@ COOKIE_NAME = "session_id"
 COOKIE_VALUE = "demo-cookie-value"
 HTTPBIN_HOME = "https://httpbin.org"
 HTTPBIN_COOKIES = "https://httpbin.org/cookies"
+MAX_ATTEMPTS = 3
+TIMEOUT_MS = 30_000
 
 
 def selenium_url() -> str | None:
@@ -57,6 +60,7 @@ def main() -> None:
         driver = webdriver.Remote(command_executor=remote_url, options=options)
 
     try:
+        driver.set_page_load_timeout(TIMEOUT_MS // 1000)
         driver.get(HTTPBIN_HOME)
         driver.add_cookie({
             "name": COOKIE_NAME,
@@ -64,9 +68,16 @@ def main() -> None:
             "path": "/",
         })
 
-        driver.get(HTTPBIN_COOKIES)
-        body = driver.find_element("tag name", "pre").text
-        data = json.loads(body)
+        for attempt in range(1, MAX_ATTEMPTS + 1):
+            driver.get(HTTPBIN_COOKIES)
+            body = driver.execute_script("return document.body.innerText")
+            try:
+                data = json.loads(body)
+                break
+            except json.JSONDecodeError:
+                if attempt == MAX_ATTEMPTS:
+                    raise RuntimeError(f"Expected JSON from httpbin, got: {body!r}")
+                time.sleep(1)
 
         assert data["cookies"][COOKIE_NAME] == COOKIE_VALUE
         print(json.dumps(data, indent=2, ensure_ascii=False))

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import time
 
 from playwright.sync_api import sync_playwright
 
@@ -13,10 +14,15 @@ from playwright.sync_api import sync_playwright
 COOKIE_NAME = "session_id"
 COOKIE_VALUE = "demo-cookie-value"
 HTTPBIN_COOKIES = "https://httpbin.org/cookies"
+MAX_ATTEMPTS = 3
+TIMEOUT_MS = 30_000
 
 
 def playwright_ws_endpoint() -> str | None:
-    explicit_endpoint = os.getenv("XCLOUDS_PLAYWRIGHT_WS_ENDPOINT")
+    explicit_endpoint = (
+        os.getenv("XCLOUDS_PLAYWRIGHT_WS_ENDPOINT")
+        or os.getenv("PLAYWRIGHT_URL")
+    )
     if explicit_endpoint:
         return explicit_endpoint
 
@@ -50,7 +56,7 @@ def main() -> None:
                     "Set XCLOUDS_PLAYWRIGHT_WS_ENDPOINT, XCLOUDS_PLAYWRIGHT_API_KEY, "
                     "or XCLOUDS_API_KEY. For a local smoke test, run with --local."
                 )
-            browser = p.chromium.connect(ws_endpoint=ws_endpoint)
+            browser = p.chromium.connect(ws_endpoint=ws_endpoint, timeout=TIMEOUT_MS)
 
         try:
             context = browser.new_context()
@@ -62,9 +68,16 @@ def main() -> None:
             }])
 
             page = context.new_page()
-            page.goto(HTTPBIN_COOKIES)
-            body = page.text_content("body")
-            data = json.loads(body or "{}")
+            for attempt in range(1, MAX_ATTEMPTS + 1):
+                page.goto(HTTPBIN_COOKIES, timeout=TIMEOUT_MS)
+                body = page.text_content("body")
+                try:
+                    data = json.loads(body or "{}")
+                    break
+                except json.JSONDecodeError:
+                    if attempt == MAX_ATTEMPTS:
+                        raise RuntimeError(f"Expected JSON from httpbin, got: {body!r}")
+                    time.sleep(1)
 
             assert data["cookies"][COOKIE_NAME] == COOKIE_VALUE
             print(json.dumps(data, indent=2, ensure_ascii=False))
