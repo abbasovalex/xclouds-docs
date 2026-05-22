@@ -2,23 +2,16 @@
 
 Зачастую требуется передавать cookies для сложных сценариев тестирования.
 Также передача cookies требуется при большинстве задач парсинга/скрапинга открытых данных.
-В Selenium, Playwright и Puppeteer/CDP для этого есть специальные методы. Мы подготовили простые примеры, которые помогут вам подключить и использовать cookies в тестах и скриптах по сбору данных.
-
-Ниже три коротких примера. Во всех примерах cookie добавляется для домена `httpbin.org`, а затем скрипт открывает `https://httpbin.org/cookies`. Этот сервис возвращает JSON с cookies, которые получил от браузера.
-
-## Что нужно
-
-- API key из xClouds для нужного endpoint.
-- Cookie с правильным `name`, `value`, `domain` и `path`.
-- Домен должен совпадать с сайтом, который вы открываете. Cookie для `httpbin.org` не будет работать на другом домене.
+В Selenium, Playwright и Puppeteer/CDP для этого есть специальные методы.
+Мы подготовили простые примеры с использованием в качестве подопытного `httpbin.org`.
+Эти примеры помогут вам подключить и использовать cookies в своих тестах и скриптах по сбору данных.
 
 ## Selenium
 
-В Selenium сначала откройте страницу на нужном домене, а потом добавьте cookie.
-
-```bash
-pip install selenium
-```
+В этом примере мы продемонстрируем как передавать cookies при работе с Selenium.
+При работе с cookies в Selenium есть важная особенность — cookies добавляются только после того, как вы запросили нужный вам URI.
+Проще говоря, вы сначала открываете нужный URI, а затем добавляете к нему cookies.
+После этого нужно сделать рефреш текущей страницы или запросить целевую страницу.
 
 ```python
 from selenium import webdriver
@@ -41,7 +34,7 @@ try:
     })
 
     driver.get("https://httpbin.org/cookies")
-    print(driver.find_element("tag name", "body").text)
+    print(driver.execute_script("return document.body.innerText"))
 finally:
     driver.quit()
 ```
@@ -55,6 +48,10 @@ finally:
   }
 }
 ```
+<p class="warn">
+    Больше примеров в <a href="https://www.selenium.dev/documentation/webdriver/interactions/cookies/">официальной документации по Selenium</a>
+</p>
+
 
 ## Playwright
 
@@ -152,11 +149,12 @@ await browser.close();
 
 ## Для production
 
-Не храните реальные cookies в репозитории. Передавайте их через переменные окружения, secret manager или временный файл, который не попадает в Git. После теста закрывайте браузер через `driver.quit()` или `browser.close()`, чтобы удаленная сессия завершилась.
+<p class="tip">
+    Не храните реальные cookies в репозитории. Передавайте их через переменные окружения, secret manager или временный файл, который не попадает в Git. После теста закрывайте браузер через `driver.quit()` или `browser.close()`, чтобы удаленная сессия завершилась.
+</p>
 
 ## Источники
 
 - httpbin — https://httpbin.org/
-- Selenium WebDriver: Cookies — https://www.selenium.dev/documentation/webdriver/interactions/cookies/
 - Playwright: BrowserContext `addCookies` — https://playwright.dev/docs/api/class-browsercontext#browser-context-add-cookies
 - Puppeteer: BrowserContext `setCookie` — https://pptr.dev/api/puppeteer.browsercontext.setcookie
