@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+"""Pass a cookie to httpbin with Playwright and print the echoed JSON."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+
+from playwright.sync_api import sync_playwright
+
+
+COOKIE_NAME = "session_id"
+COOKIE_VALUE = "demo-cookie-value"
+HTTPBIN_COOKIES = "https://httpbin.org/cookies"
+
+
+def playwright_ws_endpoint() -> str | None:
+    explicit_endpoint = os.getenv("XCLOUDS_PLAYWRIGHT_WS_ENDPOINT")
+    if explicit_endpoint:
+        return explicit_endpoint
+
+    api_key = os.getenv("XCLOUDS_PLAYWRIGHT_API_KEY") or os.getenv("XCLOUDS_API_KEY")
+    if api_key:
+        return f"wss://playwright.xclouds.dev/v1.58/?api_key={api_key}"
+
+    return None
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--local",
+        action="store_true",
+        help="run with a local Chromium instead of xClouds",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+
+    with sync_playwright() as p:
+        if args.local:
+            browser = p.chromium.launch(headless=True)
+        else:
+            ws_endpoint = playwright_ws_endpoint()
+            if not ws_endpoint:
+                raise SystemExit(
+                    "Set XCLOUDS_PLAYWRIGHT_WS_ENDPOINT, XCLOUDS_PLAYWRIGHT_API_KEY, "
+                    "or XCLOUDS_API_KEY. For a local smoke test, run with --local."
+                )
+            browser = p.chromium.connect(ws_endpoint=ws_endpoint)
+
+        try:
+            context = browser.new_context()
+            context.add_cookies([{
+                "name": COOKIE_NAME,
+                "value": COOKIE_VALUE,
+                "domain": "httpbin.org",
+                "path": "/",
+            }])
+
+            page = context.new_page()
+            page.goto(HTTPBIN_COOKIES)
+            body = page.text_content("body")
+            data = json.loads(body or "{}")
+
+            assert data["cookies"][COOKIE_NAME] == COOKIE_VALUE
+            print(json.dumps(data, indent=2, ensure_ascii=False))
+        finally:
+            browser.close()
+
+
+if __name__ == "__main__":
+    main()
