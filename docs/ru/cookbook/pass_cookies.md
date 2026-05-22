@@ -48,8 +48,63 @@ finally:
   }
 }
 ```
+
+На практике обычно требуется передавать сразу весь набор cookies.
+Используйте следующий пример для чтения всех cookies из файла и передачи его браузеру:
+
+```python
+import json
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
+XCLOUDS_URL = "http://selenium.xclouds.dev/wd/hub?api_key=YOUR_API_KEY"
+
+def load_cookies_from_file(driver, cookie_path):
+    if not cookie_path.exists():
+        raise FileNotFoundError(f"Cookie file not found: {cookie_path}")
+
+    cookies = json.loads(cookie_path.read_text(encoding="utf-8"))
+    if not isinstance(cookies, list):
+        raise ValueError("Cookie file must be an EditThisCookie-style JSON list.")
+
+    for cookie in cookies:
+        item = {
+            "name": cookie["name"],
+            "value": cookie["value"],
+            "path": cookie.get("path", "/"),
+            "domain": cookie.get("domain"),
+            "secure": bool(cookie.get("secure", True)),
+        }
+        expiration = cookie.get("expirationDate") or cookie.get("expiry")
+        if expiration:
+            item["expiry"] = int(expiration)
+        driver.add_cookie(item)
+
+
+driver = webdriver.Remote(
+    command_executor=XCLOUDS_URL,
+    options=ChromeOptions(),
+)
+
+try:
+    driver.get("https://httpbin.org")
+    load_cookies_from_file(driver, '~/my_cookies.json')
+    driver.refresh()
+
+    driver.get("https://httpbin.org/cookies")
+    print(driver.execute_script("return document.body.innerText"))
+finally:
+    driver.quit()
+```
+
+Есть несколько способов достать cookies из браузера. Но самый простой через дополнение в Chrome.
+1. Установите дополнение <a href="https://chromewebstore.google.com/detail/editthiscookie-v3/ojfebgpkimhlhcblbalbfjblapadhbol">EditThisCookie (V3)</a> для Chrome
+2. Посетите нужную страницу
+3. Откройте EditThisCookie и сделайте export (данные копируются в буфер)
+4. Создайте в домашней директории файл `my_cookies.json` и вставьте в него то, что у вас в буфере (технически в буфере находится список в формате JSON). 
+
 <p class="warn">
-    Больше примеров в <a href="https://www.selenium.dev/documentation/webdriver/interactions/cookies/">официальной документации по Selenium</a>
+    Больше деталей в <a href="https://www.selenium.dev/documentation/webdriver/interactions/cookies/">официальной документации по Selenium</a>
 </p>
 
 
@@ -94,6 +149,9 @@ await browser.close();
   }
 }
 ```
+<p class="warn">
+    Больше деталей в <a href="https://playwright.dev/docs/api/class-browsercontext#browser-context-add-cookies">официальной документации по Playwright</a>
+</p>
 
 ## Puppeteer
 
@@ -136,6 +194,9 @@ await browser.close();
   }
 }
 ```
+<p class="warn">
+    Больше деталей в <a href="https://pptr.dev/api/puppeteer.browsercontext.setcookie">официальной документации по Puppeteer</a>
+</p>
 
 ## Частые ошибки
 
@@ -152,9 +213,3 @@ await browser.close();
 <p class="tip">
     Не храните реальные cookies в репозитории. Передавайте их через переменные окружения, secret manager или временный файл, который не попадает в Git. После теста закрывайте браузер через `driver.quit()` или `browser.close()`, чтобы удаленная сессия завершилась.
 </p>
-
-## Источники
-
-- httpbin — https://httpbin.org/
-- Playwright: BrowserContext `addCookies` — https://playwright.dev/docs/api/class-browsercontext#browser-context-add-cookies
-- Puppeteer: BrowserContext `setCookie` — https://pptr.dev/api/puppeteer.browsercontext.setcookie
