@@ -2,13 +2,13 @@
 
 Используйте этот пример, когда нужен Chrome DevTools Protocol endpoint для Puppeteer, Playwright CDP workflow или AI browser automation frameworks.
 
-## Что нужно
+## Подключение к Puppeteer
+<!-- tabs:start -->
+#### **JavaScript**
 
 ```bash
 npm install puppeteer
 ```
-
-## Подключение Puppeteer
 
 ```javascript
 import puppeteer from 'puppeteer';
@@ -25,6 +25,7 @@ console.log(`Page title: "${title}"`);
 
 await browser.close();
 ```
+<!-- tabs:end -->
 
 Ожидаемый вывод:
 
@@ -32,7 +33,9 @@ await browser.close();
 Page title: "Example Domain"
 ```
 
-## Playwright через CDP
+## Подключение к Playwright через CDP
+<!-- tabs:start -->
+#### **JavaScript**
 
 ```javascript
 import { chromium } from 'playwright';
@@ -51,28 +54,8 @@ await client.send('Animation.setPlaybackRate', {
   playbackRate: response.playbackRate / 2
 });
 ```
+<!-- tabs:end -->
 
-## browser-use Agent
-
-```python
-import asyncio
-from browser_use import Agent, Browser, ChatBrowserUse
-
-BROWSER_USE_API_KEY = 'your browser-use api key'
-
-async def main():
-    browser = Browser(cdp_url='wss://cdp.xclouds.dev/cdp/?api_key=YOUR_API_KEY')
-    agent = Agent(
-        task='Visit https://habr.com/ and search for "vpn"',
-        browser=browser,
-        llm=ChatBrowserUse(api_key=BROWSER_USE_API_KEY),
-    )
-    await agent.run()
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
 
 ## Частые ошибки
 

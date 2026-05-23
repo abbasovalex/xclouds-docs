@@ -1,56 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>XClouds Documentation</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="XClouds Documentation">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="mask-icon" href="/safari-icon.svg" color="#107ddd">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+    <meta charset="UTF-8">
+    <title>XClouds Documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content="XClouds Documentation">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="mask-icon" href="/safari-icon.svg" color="#107ddd">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 </head>
 <body>
     <nav>
         <a href="#/en/getting_started">EN</a>
         <a href="#/ru/getting_started">RU</a>
     </nav>
-  <div id="app"></div>
-  <script>
-      if (!location.hash || location.hash === '#' || location.hash === '#/') {
-          location.replace(location.pathname + location.search + '#/ru/getting_started');
-      }
+    <div id="app"></div>
+    <script>
+        if (!location.hash || location.hash === '#' || location.hash === '#/') {
+            location.replace(location.pathname + location.search + '#/ru/getting_started');
+        }
 
-      window.$docsify = {
-          name: 'docs.xclouds.dev',
-          nameLink: {
-              '/ru/': '#/ru/getting_started',
-              '/en/': '#/en/getting_started',
-          },
-          loadSidebar: true,
-          loadNavbar: true,
-          alias: {
-              '/en/.*/_sidebar.md': '/en/_sidebar.md',
-              '/ru/.*/_sidebar.md': '/ru/_sidebar.md',
-              '/ru/(.*)': '/ru/$1',
-              '/en/(.*)': '/en/$1'
-          },
-          maxLevel: 4,
-          subMaxLevel: 1,
-          homepage: 'ru/getting_started.md'
-      }
-  </script>
-  <!-- Docsify v4 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-go.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-csharp.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-powershell.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-markup.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-nginx.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/front-matter.min.js"></script>
+        window.$docsify = {
+            name: 'docs.xclouds.dev',
+            nameLink: {
+                '/ru/': '#/ru/getting_started',
+                '/en/': '#/en/getting_started',
+            },
+            loadSidebar: true,
+            loadNavbar: false,
+            alias: {
+                '/en/.*/_sidebar.md': '/en/_sidebar.md',
+                '/ru/.*/_sidebar.md': '/ru/_sidebar.md',
+                '/ru/(.*)': '/ru/$1',
+                '/en/(.*)': '/en/$1'
+            },
+            maxLevel: 4,
+            subMaxLevel: 1,
+            homepage: 'ru/getting_started.md',
+            tabs: {
+                persist: true, // default
+                sync: true, // default
+                theme: 'classic', // default
+                tabComments: true, // default
+                tabHeadings: true // default
+            }
+        }
+    </script>
+    <!-- Docsify v4 -->
+    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-go.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-csharp.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-powershell.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-markup.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-nginx.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/front-matter.min.js"></script>
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
@@ -65,12 +73,12 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/107214785" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
-  <style>
-      .app-name-link img {
-          max-width: 3rem !important;
-          height: 3rem !important;
-          max-height: 3rem !important;
-      }
-  </style>
+    <style>
+        .app-name-link img {
+            max-width: 3rem !important;
+            height: 3rem !important;
+            max-height: 3rem !important;
+        }
+    </style>
 </body>
 </html>

@@ -22,8 +22,8 @@
 - Windows ARM64: [xclouds-windows-arm64.zip](https://xclouds.dev/staticfiles/xclouds-cli/releases/xclouds-windows-arm64.zip)
 
 #### 2. Распакуйте и установите клиент
-
-###### macOS
+<!-- tabs:start -->
+#### **macOS**
 
 ```bash
 unzip ~/Downloads/xclouds-darwin-arm64.zip
@@ -32,7 +32,12 @@ xattr -d com.apple.quarantine ~/Downloads/dist/xclouds-darwin-arm64 2>/dev/null 
 sudo mv ~/Downloads/dist/xclouds-darwin-arm64 /usr/local/bin/xclouds
 ```
 
-###### Linux
+<p class="tip">
+    macOS блокирует бинарник или пугает недоверием к файлу. Чтобы обойти это, обязательно выполните команду: 
+    xattr -d com.apple.quarantine ~/Downloads/dist/xclouds-darwin-arm64 2>/dev/null || true
+</p>
+
+#### **Linux**
 
 ```bash
 tar -xvzf ~/Downloads/xclouds-linux-amd64.tar.gz
@@ -40,12 +45,14 @@ chmod +x ~/Downloads/dist/xclouds-linux-amd64
 sudo mv ~/Downloads/dist/xclouds-linux-amd64 /usr/local/bin/xclouds
 ```
 
-###### Windows
-
+#### **Windows**
 ```powershell
 unzip C:\Users\YourName\Downloads\xclouds-windows-amd64.zip
 move "C:\Users\YourName\Downloads\dist\xclouds-windows-amd64.exe" "C:\Program Files\MyApp\xclouds.exe"
 ```
+
+<!-- tabs:end -->
+
 
 #### 3. Запустите своё локальное приложение или сайт
 

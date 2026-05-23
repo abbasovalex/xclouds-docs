@@ -9,6 +9,7 @@
   - [Запуск туннеля](/ru/examples/dev_tunnel)
 - **Cookbook**
   - [Передача Cookies](/ru/cookbook/pass_cookies)
+  - [Работа с Browser Use](/ru/cookbook/browser_use)
 - **Интеграции**
   - Разработка Telegram бота
   - Разработка VK Mini Apps

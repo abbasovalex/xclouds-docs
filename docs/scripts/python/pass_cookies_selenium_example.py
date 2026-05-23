@@ -16,6 +16,7 @@ try:
         "value": "demo-cookie-value",
         "path": "/",
     })
+    driver.refresh()
 
     driver.get("https://httpbin.org/cookies")
     print(driver.execute_script("return document.body.innerText"))

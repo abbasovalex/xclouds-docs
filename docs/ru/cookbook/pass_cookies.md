@@ -13,6 +13,12 @@
 Проще говоря, вы сначала открываете нужный URI, а затем добавляете к нему cookies.
 После этого нужно сделать рефреш текущей страницы или запросить целевую страницу.
 
+<!-- tabs:start -->
+#### **python**
+```bash
+pip install selenium
+```
+
 ```python
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -32,12 +38,15 @@ try:
         "value": "demo-cookie-value",
         "path": "/",
     })
-
+    driver.refresh()
+    
     driver.get("https://httpbin.org/cookies")
     print(driver.execute_script("return document.body.innerText"))
 finally:
     driver.quit()
 ```
+
+<!-- tabs:end -->
 
 Ожидаемый результат:
 
@@ -51,6 +60,9 @@ finally:
 
 На практике обычно требуется передавать сразу весь набор cookies.
 Используйте следующий пример для чтения всех cookies из файла и передачи его браузеру:
+
+<!-- tabs:start -->
+#### **python**
 
 ```python
 import json
@@ -96,6 +108,7 @@ try:
 finally:
     driver.quit()
 ```
+<!-- tabs:end -->
 
 Есть несколько способов достать cookies из браузера. Но самый простой через дополнение в Chrome.
 1. Установите дополнение <a href="https://chromewebstore.google.com/detail/editthiscookie-v3/ojfebgpkimhlhcblbalbfjblapadhbol">EditThisCookie (V3)</a> для Chrome
@@ -111,7 +124,11 @@ finally:
 ## Playwright
 
 В Playwright cookies удобнее добавить в browser context до создания страницы.
+<!-- tabs:start -->
+#### **JavaScript**
 
+Сейчас на серверах xclouds используется версия playwright == 1.58. Очень важно чтобы на клиенте стояла библиотека версии 1.58.
+Если вы установите более свежую или старую версию, то возникнут проблемы при запуске тестов. 
 ```bash
 npm install playwright@1.58
 ```
@@ -139,7 +156,7 @@ console.log(await page.textContent('body'));
 
 await browser.close();
 ```
-
+<!-- tabs:end -->
 Ожидаемый результат:
 
 ```text
@@ -157,6 +174,8 @@ await browser.close();
 
 В Puppeteer подключитесь к CDP endpoint xClouds и добавьте cookie через browser context.
 
+<!-- tabs:start -->
+#### **JavaScript**
 ```bash
 npm install puppeteer
 ```
@@ -184,6 +203,7 @@ console.log(await page.$eval('body', element => element.innerText));
 
 await browser.close();
 ```
+<!-- tabs:end -->
 
 Ожидаемый результат:
 
