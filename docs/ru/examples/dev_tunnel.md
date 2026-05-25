@@ -72,7 +72,8 @@ http://localhost:8080
 любой желающий сможет видеть и отправлять данные на этот адрес. Запустите следующую команду. Обратите внимание на то, что вместо 
 _YOUR_TUNNEL_TOKEN_ вам надо указать свой ключ. Ключ находится в личном кабинете на xclouds.dev
 
-**macOS/Linux:**
+<!-- tabs:start -->
+#### **macOS/Linux:**
 
 ```bash
 xclouds tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
@@ -84,12 +85,18 @@ xclouds tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
 ~/Downloads/dist/xclouds-darwin-arm64 tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
 ```
 
-**Windows:**
+#### **Windows:**
 
 ```powershell
 xclouds tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
+```
+или
+
+```powershell
 C:\Users\YourName\Downloads\dist\xclouds-windows-amd64.exe tunnel start --authtoken YOUR_TUNNEL_TOKEN --port 8080
 ```
+
+<!-- tabs:end -->
 
 После запуска вы увидите свой публичный домен. Поздравляем, теперь вы можете выслать публичный домен коллегам или указать для приема веб-хуков / webhooks:
 

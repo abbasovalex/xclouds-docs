@@ -1,18 +1,12 @@
 # Пример Selenium
 
 Используйте этот пример, если у вас уже есть Selenium-тесты и вы хотите запускать их через удаленный WebDriver endpoint xClouds.
-
-## Что нужно
-
-- Python 3
-- Установленный Selenium
-- Selenium API key из xClouds
+<!-- tabs:start -->
+#### **Python**
 
 ```bash
 pip install selenium urllib3
 ```
-
-## Базовое подключение
 
 ```python
 from selenium import webdriver
@@ -32,6 +26,7 @@ except WebDriverException as e:
 except MaxRetryError:
     print("Host is unavailable")
 ```
+<!-- tabs:end -->
 
 Ожидаемый результат:
 
@@ -43,6 +38,8 @@ except MaxRetryError:
 
 Пример из приложения задает версию браузера, стратегию загрузки страницы и платформу.
 
+<!-- tabs:start -->
+#### **Python**
 ```python
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
@@ -66,8 +63,13 @@ except WebDriverException as e:
 except MaxRetryError:
     print("Host is unavailable")
 ```
+<!-- tabs:end -->
+
 
 ## Chrome Options
+
+<!-- tabs:start -->
+#### **Python**
 
 ```python
 from selenium import webdriver
@@ -99,6 +101,7 @@ except WebDriverException as e:
 except MaxRetryError:
     print("Host is unavailable")
 ```
+<!-- tabs:end -->
 
 ## Частые ошибки
 
@@ -110,6 +113,9 @@ except MaxRetryError:
 | Настройки браузера не применяются | Capability не поддерживается | Начните с базового примера и добавляйте options по одному |
 | Тест зависает | `driver.quit()` не был вызван | В production-тестах используйте `try/finally` |
 
-## Для production
+## Предостережения
 
-Храните API key в переменной окружения или secret manager. Закрывайте удаленные сессии после каждого теста, чтобы освобождать браузерные ресурсы.
+<p class="tip">
+    Не храните API ключ в исходном коде, используйте для этого переменные окружения или специальные менеджеры для хранения чувствительной информации. Закрывайте браузер после каждого запуска, особенно в CI и регулярных задачах, 
+    чтобы избежать выгорания ваших минут и кредитов.
+</p>
