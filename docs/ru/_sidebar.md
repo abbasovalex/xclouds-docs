@@ -7,6 +7,8 @@
   - [Puppeteer и CDP](/ru/examples/puppeteer_cdp)
 - **Dev tunnel**
   - [Установка и запуск туннель](/ru/examples/dev_tunnel)
+- **Proxy**
+  - [Работа с прокси провайдерами](/ru/examples/third_party_proxies)
 - **Cookbook**
   - [Создание скриншотов и PDF](/ru/cookbook/screenshots_and_pdf.md)
   - [Передача Cookies](/ru/cookbook/pass_cookies)

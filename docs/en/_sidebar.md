@@ -6,3 +6,4 @@
   - [Selenium](/en/examples/selenium)
   - [Playwright](/en/examples/playwright)
   - [Puppeteer and CDP](/en/examples/puppeteer_cdp)
+  - [GitHub Actions CI](/en/examples/github_actions_ci)

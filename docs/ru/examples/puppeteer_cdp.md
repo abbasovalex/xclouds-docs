@@ -1,6 +1,6 @@
 # Пример Puppeteer и CDP
 
-Используйте этот пример, когда нужен Chrome DevTools Protocol endpoint для Puppeteer, Playwright CDP workflow или AI browser automation frameworks.
+Используйте эти примеры, если вы работаете с Puppeteer или предпочитаете подключаться к браузерам через CDP (Chrome DevTools Protocol) в своих скриптах.
 
 ## Подключение к Puppeteer
 <!-- tabs:start -->
@@ -33,7 +33,7 @@ await browser.close();
 Page title: "Example Domain"
 ```
 
-## Подключение к Playwright через CDP
+## Подключение к CDP из Playwright 
 <!-- tabs:start -->
 #### **JavaScript**
 
