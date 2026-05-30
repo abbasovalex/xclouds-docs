@@ -9,12 +9,12 @@ const context = browser.defaultBrowserContext();
 await context.setCookie({
   name: 'session_id',
   value: 'demo-cookie-value',
-  domain: 'httpbin.org',
+  domain: '.xclouds.dev',
   path: '/',
 });
 
 const page = await context.newPage();
-await page.goto('https://httpbin.org/cookies');
+await page.goto('https://bin.xclouds.dev/cookies');
 
 console.log(await page.$eval('body', element => element.innerText));
 

@@ -31,7 +31,7 @@ npm install playwright@1.58
 
 ## Базовый пример
 
-Начнём с простого теста. Всё что он делает — посещает сайт `https://httpbin.xclouds.dev/ip` и печатает наш IP.
+Начнём с простого теста. Всё что он делает — посещает сайт `https://bin.xclouds.dev/ip` и печатает наш IP.
 Если мы посетим этот сайт через прокси, то он отобразит IP адрес прокси-сервера.
 
 <!-- tabs:start -->
@@ -51,7 +51,7 @@ const browser = await puppeteer.connect({
 
 try {
   const page = await browser.newPage();
-  const response = await page.goto('https://httpbin.xclouds.dev/ip');
+  const response = await page.goto('https://bin.xclouds.dev/ip');
   const data = await response.json();
   console.log(`Proxy IP: ${data.origin}`);
 } finally {
@@ -74,7 +74,7 @@ const browser = await chromium.connectOverCDP(endpoint.toString());
 try {
   const context = browser.contexts()[0] || await browser.newContext();
   const page = await context.newPage();
-  const response = await page.goto('https://httpbin.xclouds.dev/ip');
+  const response = await page.goto('https://bin.xclouds.dev/ip');
   const data = await response.json();
   console.log(`Proxy IP: ${data.origin}`);
 } finally {
@@ -131,12 +131,12 @@ try {
   });
 
   // Выводит список cookies, которые получил от нашего приложения (при условии, что мы их верно передали)
-  const response = await page.goto('https://httpbin.xclouds.dev/cookies');
+  const response = await page.goto('https://bin.xclouds.dev/cookies');
   const data = await response.json();
   console.log(`Cookies: ${(JSON.stringify(data, null, 2))}`);
 
   // Выводит список заголовков которые наше приложение отправило
-  const response2 = await page.goto('https://httpbin.xclouds.dev/headers');
+  const response2 = await page.goto('https://bin.xclouds.dev/headers');
   const data2 = await response2.json();
   console.log(`Headers: ${(JSON.stringify(data2, null, 2))}`);
 
@@ -173,12 +173,12 @@ try {
 
 
   // Отображает список cookies которые получил от нашего приложения (при условии, что мы их верно передали)
-  const response = await page.goto('https://httpbin.xclouds.dev/cookies');
+  const response = await page.goto('https://bin.xclouds.dev/cookies');
   const data = await response.json();
   console.log(`Cookies: ${(JSON.stringify(data, null, 2))}`);
 
   // Отображает список заголовков которые наше приложение отправило
-  const response2 = await page.goto('https://httpbin.xclouds.dev/headers');
+  const response2 = await page.goto('https://bin.xclouds.dev/headers');
   const data2 = await response2.json();
   console.log(`Headers: ${(JSON.stringify(data2, null, 2))}`);
 
@@ -208,12 +208,12 @@ node node ./proxy_via_cdp_with_custom_headers_and_cookie.js
 
 Другие частые ошибки:
 
-| Симптом                                    | Возможная причина                                                      | Как исправить                                                                                                                 |
-|--------------------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| Подключение к CDP не проходит              | Неверный YOUR_API_KEY или прокси недоступен                            | Сначала проверьте ключ. Также убедитесь, что используете ключ для CDP. Если ключ верный, то проверьте прокси у провайдера     |
-| `httpbin.xclouds.dev/ip` выводит не тот IP | Прокси не применился или провайдер выдал другой выходной IP            | Проверьте значение `PROXY_SERVER` и настройки кабинета прокси                                                                 |
-| Сайт возвращает 403 или каптчу             | Одного прокси недостаточно для этого сайта                             | Проверьте cookies, заголовки, частоту запросов и правила сайта                                                                |
-| Cookies не работают                        | Домен cookie не совпадает с доменом страницы которую вы хотите открыть | Укажите домен целевого сайта. Если обращаетесь к домену www.example.com, то в cookies должен быть указан домен `.example.com` |
+| Симптом                                | Возможная причина                                                      | Как исправить                                                                                                                 |
+|----------------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Подключение к CDP не проходит          | Неверный YOUR_API_KEY или прокси недоступен                            | Сначала проверьте ключ. Также убедитесь, что используете ключ для CDP. Если ключ верный, то проверьте прокси у провайдера     |
+| `bin.xclouds.dev/ip` выводит не тот IP | Прокси не применился или провайдер выдал другой выходной IP            | Проверьте значение `PROXY_SERVER` и настройки кабинета прокси                                                                 |
+| Сайт возвращает 403 или каптчу         | Одного прокси недостаточно для этого сайта                             | Проверьте cookies, заголовки, частоту запросов и правила сайта                                                                |
+| Cookies не работают                    | Домен cookie не совпадает с доменом страницы которую вы хотите открыть | Укажите домен целевого сайта. Если обращаетесь к домену www.example.com, то в cookies должен быть указан домен `.example.com` |
 
 
 ## Предостережения

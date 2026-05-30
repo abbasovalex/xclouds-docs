@@ -9,7 +9,7 @@ driver = webdriver.Remote(
 )
 
 try:
-    driver.get("https://httpbin.org")
+    driver.get("https://bin.xclouds.dev")
 
     driver.add_cookie({
         "name": "session_id",
@@ -18,7 +18,7 @@ try:
     })
     driver.refresh()
 
-    driver.get("https://httpbin.org/cookies")
+    driver.get("https://bin.xclouds.dev/cookies")
     print(driver.execute_script("return document.body.innerText"))
 finally:
     driver.quit()

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""GET JSON from httpbin and verify the response shape."""
+"""GET JSON from bin.xclouds.dev and verify the response shape."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import json
 import urllib.request
 
 
-URL = "http://httpbin.org/get?tool=xclouds-docs&example=get-json"
+URL = "https://bin.xclouds.dev/get?tool=xclouds-docs&example=get-json"
 
 
 def main() -> None:
@@ -19,7 +19,7 @@ def main() -> None:
 
     assert data["args"]["tool"] == "xclouds-docs"
     assert data["args"]["example"] == "get-json"
-    assert data["url"].startswith("http://httpbin.org/get")
+    assert data["url"].startswith("https://bin.xclouds.dev/get")
 
     print("GET example passed")
 

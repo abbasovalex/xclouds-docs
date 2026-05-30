@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""POST JSON to httpbin and verify the echoed payload."""
+"""POST JSON to bin.xclouds.dev and verify the echoed payload."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import json
 import urllib.request
 
 
-URL = "http://httpbin.org/post"
+URL = "https://bin.xclouds.dev/post"
 PAYLOAD = {
     "source": "xclouds-docs",
     "example": "post-json",

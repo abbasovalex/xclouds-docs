@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check an expected status code from httpbin."""
+"""Check an expected status code from bin.xclouds.dev"""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import urllib.error
 import urllib.request
 
 
-URL = "http://httpbin.org/status/204"
+URL = "http://bin.xclouds.dev/status/204"
 
 
 def main() -> None:

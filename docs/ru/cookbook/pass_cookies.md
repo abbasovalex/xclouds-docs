@@ -3,7 +3,7 @@
 Зачастую требуется передавать cookies для сложных сценариев тестирования.
 Также передача cookies требуется при большинстве задач парсинга/скрапинга открытых данных.
 В Selenium, Playwright и Puppeteer/CDP для этого есть специальные методы.
-Мы подготовили простые примеры с использованием в качестве подопытного `httpbin.org`.
+Мы подготовили простые примеры с использованием в качестве подопытного `bin.xclouds.dev`.
 Эти примеры помогут вам подключить и использовать cookies в своих тестах и скриптах по сбору данных.
 
 ## Selenium
@@ -31,7 +31,7 @@ driver = webdriver.Remote(
 )
 
 try:
-    driver.get("https://httpbin.xclouds.dev")
+    driver.get("https://bin.xclouds.dev")
 
     driver.add_cookie({
         "name": "session_id",
@@ -40,7 +40,7 @@ try:
     })
     driver.refresh()
     
-    driver.get("https://httpbin.xclouds.dev/cookies")
+    driver.get("https://bin.xclouds.dev/cookies")
     print(driver.execute_script("return document.body.innerText"))
 finally:
     driver.quit()
@@ -99,11 +99,11 @@ driver = webdriver.Remote(
 )
 
 try:
-    driver.get("https://httpbin.xclouds.dev")
+    driver.get("https://bin.xclouds.dev")
     load_cookies_from_file(driver, '~/my_cookies.json')
     driver.refresh()
 
-    driver.get("https://httpbin.xclouds.dev/cookies")
+    driver.get("https://bin.xclouds.dev/cookies")
     print(driver.execute_script("return document.body.innerText"))
 finally:
     driver.quit()
@@ -145,12 +145,12 @@ const context = await browser.newContext();
 await context.addCookies([{
   name: 'session_id',
   value: 'demo-cookie-value',
-  domain: 'httpbin.xclouds.dev',
+  domain: 'bin.xclouds.dev',
   path: '/',
 }]);
 
 const page = await context.newPage();
-await page.goto('https://httpbin.xclouds.dev/cookies');
+await page.goto('https://bin.xclouds.dev/cookies');
 
 console.log(await page.textContent('body'));
 
@@ -192,12 +192,12 @@ const context = browser.defaultBrowserContext();
 await context.setCookie({
   name: 'session_id',
   value: 'demo-cookie-value',
-  domain: 'httpbin.xclouds.dev',
+  domain: 'bin.xclouds.dev',
   path: '/',
 });
 
 const page = await context.newPage();
-await page.goto('https://httpbin.xclouds.dev/cookies');
+await page.goto('https://bin.xclouds.dev/cookies');
 
 console.log(await page.$eval('body', element => element.innerText));
 
@@ -222,8 +222,8 @@ await browser.close();
 
 | Симптом | Возможная причина | Как исправить |
 | --- | --- | --- |
-| Cookie не появилась | Домен cookie не совпадает с доменом страницы | Используйте тот же домен, например `httpbin.org` для `https://httpbin.org/cookies` |
-| Selenium выдает ошибку при `add_cookie()` | Браузер еще не открыт на нужном домене | Сначала вызовите `driver.get("https://httpbin.xclouds.dev")` |
+| Cookie не появилась | Домен cookie не совпадает с доменом страницы | Используйте тот же домен, например `xclouds.dev` для `https://bin.xclouds.dev/cookies` |
+| Selenium выдает ошибку при `add_cookie()` | Браузер еще не открыт на нужном домене | Сначала вызовите `driver.get("https://bin.xclouds.dev")` |
 | Сайт все равно просит логин | Передана не вся сессия | Проверьте, какие cookies реально нужны приложению |
 | Cookie видна в коде, но не в `document.cookie` | У cookie стоит флаг `HttpOnly` | Это нормально: браузер отправляет такую cookie на сервер, но JavaScript ее не читает |
 | Пример не подключается к xClouds | Неверный endpoint или API key | Проверьте URL и замените `YOUR_API_KEY` на свой ключ |
