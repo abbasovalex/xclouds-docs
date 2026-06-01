@@ -1,4 +1,4 @@
-# Пример Puppeteer и CDP
+# Подключение к Puppeteer и CDP
 
 Используйте эти примеры, если вы работаете с Puppeteer или предпочитаете подключаться к браузерам через CDP (Chrome DevTools Protocol) в своих скриптах.
 
