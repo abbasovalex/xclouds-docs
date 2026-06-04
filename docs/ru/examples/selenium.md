@@ -9,6 +9,20 @@ pip install selenium urllib3
 ```
 [connect_to_xclouds.py](../../code_examples/selenium/python/connect_to_xclouds.py ':include :type=code python')
 
+#### **Go**
+
+```bash
+go get github.com/tebeka/selenium
+```
+[connect_to_xclouds.go](../../code_examples/selenium/go/connect_to_xclouds.go ':include :type=code go')
+
+#### **PHP**
+
+```bash
+composer require php-webdriver/webdriver
+```
+[connect_to_xclouds.php](../../code_examples/selenium/php/connect_to_xclouds.php ':include :type=code php')
+
 <!-- tabs:end -->
 
 Ожидаемый результат:

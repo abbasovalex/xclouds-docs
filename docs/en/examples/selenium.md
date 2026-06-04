@@ -4,17 +4,45 @@ Use this example when you already have Selenium tests and want to run them throu
 
 ## Prerequisites
 
-- Python 3
-- Selenium installed
+- Python 3, Go, or PHP
+- Selenium client library for your language
 - An xClouds Selenium API key
+
+For Python:
 
 ```bash
 pip install selenium urllib3
 ```
 
+For Go:
+
+```bash
+go get github.com/tebeka/selenium
+```
+
+For PHP:
+
+```bash
+composer require php-webdriver/webdriver
+```
+
 ## Basic Connection
 
+<!-- tabs:start -->
+
+#### **Python**
+
 [connect_to_xclouds.py](../../code_examples/selenium/python/connect_to_xclouds.py ':include :type=code python')
+
+#### **Go**
+
+[connect_to_xclouds.go](../../code_examples/selenium/go/connect_to_xclouds.go ':include :type=code go')
+
+#### **PHP**
+
+[connect_to_xclouds.php](../../code_examples/selenium/php/connect_to_xclouds.php ':include :type=code php')
+
+<!-- tabs:end -->
 
 Expected result:
 
