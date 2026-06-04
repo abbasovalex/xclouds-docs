@@ -1,0 +1,42 @@
+name: xClouds browser tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  playwright-smoke:
+    name: Playwright remote browser smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install playwright==1.58.0
+
+      - name: Run Playwright smoke test
+        env:
+          XCLOUDS_API_KEY: ${{ secrets.XCLOUDS_API_KEY }}
+        run: python scripts/xclouds/github_actions_playwright_smoke.py
+
+  selenium-smoke:
+    name: Selenium remote browser smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install selenium
+
+      - name: Run Selenium smoke test
+        env:
+          XCLOUDS_API_KEY: ${{ secrets.XCLOUDS_API_KEY }}
+        run: python scripts/xclouds/github_actions_selenium_smoke.py

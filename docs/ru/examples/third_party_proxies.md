@@ -4,8 +4,8 @@
 Для тестирования прокси может использоваться в сценариях e2e-тестов, когда ваш сервер закрыт от внешнего мира и к нему есть доступ только с прокси-сервера.
 Другой пример — собрать для службы маркетинга данные по конкуренту, но не просто собрать, а с учетом конкретного региона (страны, города).
 
-xClouds поддерживает работу с proxy. Это означает, что вы можете запускать наши браузеры и 
-они будут обращаться к нужным URI через ваш или сторонний proxy-сервер. Далее мы покажем 
+xClouds поддерживает работу с proxy. Это означает, что вы можете запускать наши браузеры и
+они будут обращаться к нужным URI через ваш или сторонний proxy-сервер. Далее мы покажем
 как использовать прокси на примере Playwright, Puppeteer и CDP.
 
 ## Что понадобится
@@ -37,50 +37,11 @@ npm install playwright@1.58
 <!-- tabs:start -->
 #### **Puppeteer**
 
-```javascript
-// proxy_via_cdp.js
-import puppeteer from 'puppeteer';
-
-const endpoint = new URL('wss://cdp.xclouds.dev/cdp/');
-endpoint.searchParams.set('api_key', 'YOUR_API_KEY');
-endpoint.searchParams.set('externalProxyServer', 'https://user:password@proxy.server.com:8433');
-
-const browser = await puppeteer.connect({
-  browserWSEndpoint: endpoint.toString(),
-});
-
-try {
-  const page = await browser.newPage();
-  const response = await page.goto('https://bin.xclouds.dev/ip');
-  const data = await response.json();
-  console.log(`Proxy IP: ${data.origin}`);
-} finally {
-  await browser.close();
-}
-```
+[puppeteer_proxy_cdp.js](../../code_examples/third_party_proxies/javascript/puppeteer_proxy_cdp.js ':include :type=code javascript')
 
 #### **Playwright**
 
-```javascript
-// proxy_via_cdp.js
-import { chromium } from 'playwright';
-
-const endpoint = new URL('wss://cdp.xclouds.dev/cdp/');
-endpoint.searchParams.set('api_key', 'YOUR_API_KEY');
-endpoint.searchParams.set('externalProxyServer', 'http://user:password@proxy.server.com:8080');
-
-const browser = await chromium.connectOverCDP(endpoint.toString());
-
-try {
-  const context = browser.contexts()[0] || await browser.newContext();
-  const page = await context.newPage();
-  const response = await page.goto('https://bin.xclouds.dev/ip');
-  const data = await response.json();
-  console.log(`Proxy IP: ${data.origin}`);
-} finally {
-  await browser.close();
-}
-```
+[playwright_proxy_cdp.js](../../code_examples/third_party_proxies/javascript/playwright_proxy_cdp.js ':include :type=code javascript')
 <!-- tabs:end -->
 
 Запускаем этот скрипт через консоль:
@@ -93,105 +54,29 @@ node ./proxy_via_cdp.js
 ## Расширенный пример с передачей заголовков и cookies
 
 Базовый пример демонстрирует суть работы прокси — ваши запросы идут с других IP.
-В реальных задачах требуется не только наличие прокси, но 
+В реальных задачах требуется не только наличие прокси, но
 также передача дополнительных данных через заголовки (headers) и cookies.
-Давайте продемонстрируем на примере ниже как их передавать вместе с прокси. 
+Давайте продемонстрируем на примере ниже как их передавать вместе с прокси.
 
 <p class="tip">
-Для упрощения примеров мы вставляем прямо в код скрипта api ключи, пароли и cookies. 
+Для упрощения примеров мы вставляем прямо в код скрипта api ключи, пароли и cookies.
 На практике не делайте так. Правильно будет передавать эти данные через переменные окружения.
 </p>
 
 <!-- tabs:start -->
 #### **Puppeteer**
 
-```javascript
-// proxy_via_cdp_with_custom_headers_and_cookie.js
-import puppeteer from 'puppeteer';
-
-const endpoint = new URL('wss://cdp.xclouds.dev/cdp/');
-endpoint.searchParams.set('api_key', 'YOUR_API_KEY');
-endpoint.searchParams.set('externalProxyServer', 'http://user:password@proxy.server.com:8080');
-
-const browser = await puppeteer.connect({
-  browserWSEndpoint: endpoint.toString(),
-});
-
-try {
-
-  // Добавляем cookies в браузер
-  const cookies = JSON.parse('[{"name":"session_id","value":"demo","domain":".xclouds.dev","path":"/"}]');
-  await browser.setCookie(...cookies);
-
-  const page = await browser.newPage();
-  await page.setUserAgent({'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'});
-  await page.setExtraHTTPHeaders({
-    'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-    'Upgrade-Insecure-Requests': '1',
-  });
-
-  // Выводит список cookies, которые получил от нашего приложения (при условии, что мы их верно передали)
-  const response = await page.goto('https://bin.xclouds.dev/cookies');
-  const data = await response.json();
-  console.log(`Cookies: ${(JSON.stringify(data, null, 2))}`);
-
-  // Выводит список заголовков которые наше приложение отправило
-  const response2 = await page.goto('https://bin.xclouds.dev/headers');
-  const data2 = await response2.json();
-  console.log(`Headers: ${(JSON.stringify(data2, null, 2))}`);
-
-} finally {
-  await browser.close();
-}
-```
+[puppeteer_proxy_headers_cookie.js](../../code_examples/third_party_proxies/javascript/puppeteer_proxy_headers_cookie.js ':include :type=code javascript')
 
 #### **Playwright**
 
-```javascript
-// proxy_via_cdp_with_custom_headers_and_cookie.js
-import { chromium } from 'playwright';
-
-const endpoint = new URL('wss://cdp.xclouds.dev/cdp/');
-endpoint.searchParams.set('api_key', 'YOUR_API_KEY');
-endpoint.searchParams.set('externalProxyServer', 'http://user:password@proxy.server.com:8080');
-
-const browser = await chromium.connectOverCDP(endpoint.toString());
-const context = browser.contexts()[0] || await browser.newContext();
-
-try {
-
-  await context.setExtraHTTPHeaders({
-    'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-    'Upgrade-Insecure-Requests': '1',
-  });
-  // Добавляем cookies в браузер
-  const cookies = JSON.parse('[{"name":"session_id","value":"demo","domain":".xclouds.dev","path":"/"}]');
-  await context.addCookies(cookies);
-
-  const page = await context.newPage();
-  await page.setExtraHTTPHeaders({'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'});
-
-
-  // Отображает список cookies которые получил от нашего приложения (при условии, что мы их верно передали)
-  const response = await page.goto('https://bin.xclouds.dev/cookies');
-  const data = await response.json();
-  console.log(`Cookies: ${(JSON.stringify(data, null, 2))}`);
-
-  // Отображает список заголовков которые наше приложение отправило
-  const response2 = await page.goto('https://bin.xclouds.dev/headers');
-  const data2 = await response2.json();
-  console.log(`Headers: ${(JSON.stringify(data2, null, 2))}`);
-
-} finally {
-  await browser.close();
-}
-```
+[playwright_proxy_headers_cookie.js](../../code_examples/third_party_proxies/javascript/playwright_proxy_headers_cookie.js ':include :type=code javascript')
 <!-- tabs:end -->
 
 Запуск расширенного примера:
 
 ```bash
-node node ./proxy_via_cdp_with_custom_headers_and_cookie.js
+node ./proxy_via_cdp_with_custom_headers_and_cookie.js
 ```
 
 ## Частые ошибки

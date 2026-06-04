@@ -62,50 +62,7 @@ If you use a different path, update the workflow commands in the next step.
 
 Create `.github/workflows/xclouds-browser-tests.yml`:
 
-```yaml
-name: xClouds browser tests
-
-on:
-  push:
-  pull_request:
-
-jobs:
-  playwright-smoke:
-    name: Playwright remote browser smoke
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: python -m pip install playwright==1.58.0
-
-      - name: Run Playwright smoke test
-        env:
-          XCLOUDS_API_KEY: ${{ secrets.XCLOUDS_API_KEY }}
-        run: python scripts/xclouds/github_actions_playwright_smoke.py
-
-  selenium-smoke:
-    name: Selenium remote browser smoke
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: python -m pip install selenium
-
-      - name: Run Selenium smoke test
-        env:
-          XCLOUDS_API_KEY: ${{ secrets.XCLOUDS_API_KEY }}
-        run: python scripts/xclouds/github_actions_selenium_smoke.py
-```
+[browser_tests.yml](../../code_examples/github_actions_ci/yaml/browser_tests.yml ':include :type=code yaml')
 
 The jobs are separate so a Playwright failure and a Selenium failure are easy to read in the Actions UI.
 
@@ -153,47 +110,7 @@ Add two more secrets or variables:
 
 Example job shape:
 
-```yaml
-ui-tests:
-  name: Private UI tests through xClouds tunnel
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v6
-
-    - uses: actions/setup-node@v6
-      with:
-        node-version: "24"
-
-    - uses: actions/setup-python@v6
-      with:
-        python-version: "3.12"
-
-    - name: Install app dependencies
-      run: npm ci
-
-    - name: Build app
-      run: npm run build
-
-    - name: Start app
-      run: npm run start -- --host 127.0.0.1 --port 3000 &
-
-    - name: Install xClouds CLI
-      run: |
-        # Download the Linux xClouds CLI archive from the xClouds app.
-        # Then extract it and put the xclouds binary on PATH.
-        chmod +x ./xclouds
-
-    - name: Start xClouds tunnel
-      env:
-        XCLOUDS_TUNNEL_TOKEN: ${{ secrets.XCLOUDS_TUNNEL_TOKEN }}
-      run: xclouds tunnel start --authtoken "$XCLOUDS_TUNNEL_TOKEN" --port 3000 &
-
-    - name: Run UI tests
-      env:
-        XCLOUDS_API_KEY: ${{ secrets.XCLOUDS_API_KEY }}
-        BASE_URL: ${{ vars.XCLOUDS_TUNNEL_URL }}
-      run: python scripts/xclouds/run_ui_tests.py
-```
+[private_ui_tests.yml](../../code_examples/github_actions_ci/yaml/private_ui_tests.yml ':include :type=code yaml')
 
 Your test should read `BASE_URL` and navigate to that URL:
 

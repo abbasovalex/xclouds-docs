@@ -12,52 +12,18 @@
 npm install playwright@1.58
 ```
 
-```javascript
-import { chromium } from 'playwright';
-
-const browser = await chromium.connect({
-    wsEndpoint: 'wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY',
-});
-const page = await browser.newPage();
-await page.goto('https://example.com');
-await browser.close();
-```
+[chromium_connect.js](../../code_examples/playwright/javascript/chromium_connect.js ':include :type=code javascript')
 
 #### **Python**
 ```bash
 pip install playwright==1.58
 ```
 
-```python
-from playwright.sync_api import sync_playwright
-
-with sync_playwright() as p:
-    browser = p.chromium.connect(
-        ws_endpoint='wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY'
-    )
-    page = browser.new_page()
-    page.goto('https://example.com')
-    browser.close()
-```
+[chromium_connect.py](../../code_examples/playwright/python/chromium_connect.py ':include :type=code python')
 
 #### **Java**
 
-```java
-import com.microsoft.playwright.*;
-
-public class Main {
-    public static void main(String[] args) {
-        try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().connect(
-                "wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY"
-            );
-            Page page = browser.newPage();
-            page.navigate("https://example.com");
-            browser.close();
-        }
-    }
-}
-```
+[chromium_connect.java](../../code_examples/playwright/java/chromium_connect.java ':include :type=code java')
 
 Maven dependency:
 
@@ -71,17 +37,7 @@ Maven dependency:
 
 #### **C#**
 
-```csharp
-using Microsoft.Playwright;
-
-using var playwright = await Playwright.CreateAsync();
-var browser = await playwright.Chromium.ConnectAsync(
-    "wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY"
-);
-var page = await browser.NewPageAsync();
-await page.GotoAsync("https://example.com");
-await browser.CloseAsync();
-```
+[chromium_connect.cs](../../code_examples/playwright/csharp/chromium_connect.cs ':include :type=code csharp')
 
 Установите подходящую версию пакета:
 
@@ -96,63 +52,19 @@ dotnet add package Microsoft.Playwright --version 1.58.0
 <!-- tabs:start -->
 #### **JavaScript**
 
-```javascript
-import { firefox } from 'playwright';
-
-const browser = await firefox.connect({
-    wsEndpoint: 'wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY',
-});
-const page = await browser.newPage();
-await page.goto('https://example.com');
-await browser.close();
-```
+[firefox_connect.js](../../code_examples/playwright/javascript/firefox_connect.js ':include :type=code javascript')
 
 #### **Python**
 
-```python
-from playwright.sync_api import sync_playwright
-
-with sync_playwright() as p:
-    browser = p.firefox.connect(
-        ws_endpoint='wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY'
-    )
-    page = browser.new_page()
-    page.goto('https://example.com')
-    browser.close()
-```
+[firefox_connect.py](../../code_examples/playwright/python/firefox_connect.py ':include :type=code python')
 
 #### **Java**
 
-```java
-import com.microsoft.playwright.*;
-
-public class Main {
-    public static void main(String[] args) {
-        try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.firefox().connect(
-                "wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY"
-            );
-            Page page = browser.newPage();
-            page.navigate("https://example.com");
-            browser.close();
-        }
-    }
-}
-```
+[firefox_connect.java](../../code_examples/playwright/java/firefox_connect.java ':include :type=code java')
 
 #### **C#**
 
-```csharp
-using Microsoft.Playwright;
-
-using var playwright = await Playwright.CreateAsync();
-var browser = await playwright.Firefox.ConnectAsync(
-    "wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY"
-);
-var page = await browser.NewPageAsync();
-await page.GotoAsync("https://example.com");
-await browser.CloseAsync();
-```
+[firefox_connect.cs](../../code_examples/playwright/csharp/firefox_connect.cs ':include :type=code csharp')
 <!-- tabs:end -->
 
 
@@ -169,6 +81,6 @@ await browser.CloseAsync();
 ## Предостережения
 
 <p class="tip">
-    Не храните API ключ в исходном коде, используйте для этого переменные окружения или специальные менеджеры для хранения чувствительной информации. Закрывайте браузер после каждого запуска, особенно в CI и регулярных задачах, 
+    Не храните API ключ в исходном коде, используйте для этого переменные окружения или специальные менеджеры для хранения чувствительной информации. Закрывайте браузер после каждого запуска, особенно в CI и регулярных задачах,
     чтобы избежать выгорания ваших минут и кредитов.
 </p>

@@ -7,7 +7,7 @@ import urllib.error
 import urllib.request
 
 
-URL = "http://bin.xclouds.dev/status/204"
+URL = "https://bin.xclouds.dev/status/204"
 
 
 def main() -> None:

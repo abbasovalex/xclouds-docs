@@ -17,13 +17,14 @@ ROOT = Path(__file__).resolve().parents[2]
 DOC_PATH = ROOT / "ru" / "cookbook" / "pass_cookies.md"
 ENV_PATH = ROOT.parent / ".env"
 SCRIPT_DIR = Path(__file__).resolve().parent
+JS_SCRIPT_DIR = SCRIPT_DIR.parent / "js"
 EXPECTED_COOKIE = "demo-cookie-value"
 
 
 EXAMPLES = {
     "Selenium": ("python", SCRIPT_DIR / "pass_cookies_selenium_example.py"),
-    "Playwright": ("javascript", SCRIPT_DIR / "pass_cookies_playwright_example.js"),
-    "Puppeteer": ("javascript", SCRIPT_DIR / "pass_cookies_puppeteer_example.js"),
+    "Playwright": ("javascript", JS_SCRIPT_DIR / "pass_cookies_playwright_example.js"),
+    "Puppeteer": ("javascript", JS_SCRIPT_DIR / "pass_cookies_puppeteer_example.js"),
 }
 
 RUN_EXAMPLES = {
@@ -56,12 +57,17 @@ def section(markdown: str, heading: str) -> str:
     return match.group("body")
 
 
-def first_code_block(markdown: str, language: str) -> str:
-    pattern = rf"```{re.escape(language)}\n(?P<code>.*?)\n```"
-    match = re.search(pattern, markdown, flags=re.DOTALL)
+def first_included_code(markdown: str, language: str, base_dir: Path) -> str:
+    pattern = rf"\[[^\]]+\]\((?P<path>[^)'\s]+)\s+'?:include\s+:type=code\s+{re.escape(language)}'?\)"
+    match = re.search(pattern, markdown)
     if not match:
-        raise AssertionError(f"Code block not found: {language}")
-    return match.group("code").rstrip() + "\n"
+        raise AssertionError(f"Included code file not found: {language}")
+
+    include_path = (base_dir / match.group("path")).resolve()
+    if not include_path.is_file():
+        raise AssertionError(f"Included code file is missing: {include_path}")
+
+    return include_path.read_text(encoding="utf-8")
 
 
 def load_env(path: Path) -> dict[str, str]:
@@ -145,7 +151,7 @@ class CookieExampleTests(unittest.TestCase):
 
         for heading, (language, example_path) in EXAMPLES.items():
             with self.subTest(example=heading):
-                expected = first_code_block(section(markdown, heading), language)
+                expected = first_included_code(section(markdown, heading), language, DOC_PATH.parent)
                 actual = example_path.read_text(encoding="utf-8")
                 self.assertEqual(expected, actual)
 

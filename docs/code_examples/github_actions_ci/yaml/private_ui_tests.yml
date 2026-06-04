@@ -1,0 +1,39 @@
+ui-tests:
+  name: Private UI tests through xClouds tunnel
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v6
+
+    - uses: actions/setup-node@v6
+      with:
+        node-version: "24"
+
+    - uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
+
+    - name: Install app dependencies
+      run: npm ci
+
+    - name: Build app
+      run: npm run build
+
+    - name: Start app
+      run: npm run start -- --host 127.0.0.1 --port 3000 &
+
+    - name: Install xClouds CLI
+      run: |
+        # Download the Linux xClouds CLI archive from the xClouds app.
+        # Then extract it and put the xclouds binary on PATH.
+        chmod +x ./xclouds
+
+    - name: Start xClouds tunnel
+      env:
+        XCLOUDS_TUNNEL_TOKEN: ${{ secrets.XCLOUDS_TUNNEL_TOKEN }}
+      run: xclouds tunnel start --authtoken "$XCLOUDS_TUNNEL_TOKEN" --port 3000 &
+
+    - name: Run UI tests
+      env:
+        XCLOUDS_API_KEY: ${{ secrets.XCLOUDS_API_KEY }}
+        BASE_URL: ${{ vars.XCLOUDS_TUNNEL_URL }}
+      run: python scripts/xclouds/run_ui_tests.py

@@ -6,88 +6,19 @@
 
 #### **JavaScript**
 
-```javascript
-import { chromium } from 'playwright';
-import fs from 'fs';
-
-const browser = await chromium.connect({
-    wsEndpoint: 'wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY',
-});
-const page = await browser.newPage();
-await page.goto('https://example.com');
-
-const pngBuffer = await page.screenshot();
-fs.writeFileSync('screenshot.png', pngBuffer);
-
-const pdfBuffer = await page.pdf({ format: 'A4' });
-fs.writeFileSync('page.pdf', pdfBuffer);
-
-await browser.close();
-```
+[playwright_screenshots_pdf.js](../../code_examples/cookbook/screenshots_and_pdf/javascript/playwright_screenshots_pdf.js ':include :type=code javascript')
 
 #### **Python**
 
-```python
-from playwright.sync_api import sync_playwright
-
-with sync_playwright() as p:
-    browser = p.chromium.connect(
-        ws_endpoint='wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY'
-    )
-    page = browser.new_page()
-    page.goto('https://example.com')
-
-    png_bytes = page.screenshot()
-    with open('screenshot.png', 'wb') as f:
-        f.write(png_bytes)
-
-    pdf_bytes = page.pdf(format='A4')
-    with open('page.pdf', 'wb') as f:
-        f.write(pdf_bytes)
-
-    browser.close()
-```
+[playwright_screenshots_pdf.py](../../code_examples/cookbook/screenshots_and_pdf/python/playwright_screenshots_pdf.py ':include :type=code python')
 
 #### **Java**
 
-```java
-import com.microsoft.playwright.*;
-import java.nio.file.Paths;
-
-try (Playwright playwright = Playwright.create()) {
-    Browser browser = playwright.chromium().connect(
-        "wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY"
-    );
-    Page page = browser.newPage();
-    page.navigate("https://example.com");
-
-    page.screenshot(new Page.ScreenshotOptions()
-        .setPath(Paths.get("screenshot.png")));
-
-    page.pdf(new Page.PdfOptions()
-        .setPath(Paths.get("page.pdf")));
-
-    browser.close();
-}
-```
+[playwright_screenshots_pdf.java](../../code_examples/cookbook/screenshots_and_pdf/java/playwright_screenshots_pdf.java ':include :type=code java')
 
 #### **C#**
 
-```csharp
-using Microsoft.Playwright;
-
-using var playwright = await Playwright.CreateAsync();
-var browser = await playwright.Chromium.ConnectAsync(
-    "wss://playwright.xclouds.dev/v1.58/?api_key=YOUR_API_KEY"
-);
-var page = await browser.NewPageAsync();
-await page.GotoAsync("https://example.com");
-
-await page.ScreenshotAsync(new PageScreenshotOptions { Path = "screenshot.png" });
-await page.PdfAsync(new PagePdfOptions { Path = "page.pdf" });
-
-await browser.CloseAsync();
-```
+[playwright_screenshots_pdf.cs](../../code_examples/cookbook/screenshots_and_pdf/csharp/playwright_screenshots_pdf.cs ':include :type=code csharp')
 <!-- tabs:end -->
 
 Ожидаемый результат:
@@ -109,6 +40,6 @@ await browser.CloseAsync();
 ## Предостережения
 
 <p class="tip">
-    Не храните API ключ в исходном коде, используйте для этого переменные окружения или специальные менеджеры для хранения чувствительной информации. Закрывайте браузер после каждого запуска, особенно в CI и регулярных задачах, 
+    Не храните API ключ в исходном коде, используйте для этого переменные окружения или специальные менеджеры для хранения чувствительной информации. Закрывайте браузер после каждого запуска, особенно в CI и регулярных задачах,
     чтобы избежать выгорания ваших минут и кредитов.
 </p>
