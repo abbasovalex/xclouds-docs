@@ -1,4 +1,4 @@
-# GitHub Actions CI с xClouds
+# GitHub Actions
 
 xClouds может запускать браузерные сессии для CI через удаленные endpoints Playwright и Selenium. Используйте это руководство, если хотите, чтобы GitHub Actions выполнял браузерный smoke-тест без поддержки Selenium Grid, браузерных драйверов или браузерных узлов внутри runner.
 

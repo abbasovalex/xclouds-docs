@@ -1,17 +1,22 @@
 <!-- docs/ru/_sidebar.md -->
 
 - [**Что такое xClouds**](/ru/getting_started)
-  - [Подключение к Selenium](/ru/examples/selenium)
-  - [Подключение к Playwright](/ru/examples/playwright)
-  - [Подключение к Puppeteer и CDP](/ru/examples/puppeteer_cdp)
-  - [Работа через dev-туннель](/ru/examples/dev_tunnel)
-  - [Запуск браузеров через прокси](/ru/examples/third_party_proxies)
-- **Cookbook**
+  - [Подключение через Selenium](/ru/examples/selenium)
+  - [Подключение через Playwright](/ru/examples/playwright)
+  - [Подключение через Puppeteer и CDP](/ru/examples/puppeteer_cdp)
+  - [Использование dev-туннеля](/ru/examples/dev_tunnel)
+
+- **Расширенные примеры**
+  - [Работа через прокси](/ru/examples/third_party_proxies)
   - [Создание скриншотов и PDF](/ru/cookbook/screenshots_and_pdf.md)
   - [Передача Cookies](/ru/cookbook/pass_cookies)
-  - [Работа с Browser Use](/ru/cookbook/browser_use)
   - [CI/CD Github](/ru/examples/github_actions_ci.md)
-- **Интеграции**
+
+- **Подключение к ИИ-агентам**
+  - [CrewAI](/ru/examples/ai/crewai.md)
+  - [BrowserUse](/ru/cookbook/browser_use)
+
+- **Примеры интеграций**
   - Разработка Telegram бота
   - Разработка VK Mini Apps
   - Jivo
