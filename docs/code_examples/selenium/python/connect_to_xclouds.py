@@ -3,7 +3,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from urllib3.exceptions import MaxRetryError
 
-XCLOUDS_URL = "http://selenium.xclouds.dev/wd/hub?api_key=YOUR_API_KEY"
+XCLOUDS_URL = "https://selenium.xclouds.dev/wd/hub?api_key=YOUR_API_KEY"
 
 try:
     driver = webdriver.Remote(command_executor=XCLOUDS_URL, options=ChromeOptions())

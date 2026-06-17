@@ -1,19 +1,22 @@
 # Запуск облачных браузеров через proxy
 
-Работа браузеров с прокси широко используются как для сценариев тестирования, так и для сбора данных через интернет (скрапинг, парсинг).
-Для тестирования прокси может использоваться в сценариях e2e-тестов, когда ваш сервер закрыт от внешнего мира и к нему есть доступ только с прокси-сервера.
-Другой пример — собрать для службы маркетинга данные по конкуренту, но не просто собрать, а с учетом конкретного региона (страны, города).
+Прокси широко используются в сценариях тестирования и для сбора данных через интернет (скрапинг / парсинг). 
+К примеру, в e2e-тестах прокси могут служить прослойкой, которая обеспечит доступ к закрытым от посторонних глаз серверам. 
+А скажем, при сборе данных для службы маркетинга поможет обратиться к сайту с учетом конкретного региона (страны, города).
 
-xClouds поддерживает работу с proxy. Это означает, что вы можете запускать наши браузеры и
-они будут обращаться к нужным URI через ваш или сторонний proxy-сервер. Далее мы покажем
-как использовать прокси на примере Playwright, Puppeteer и CDP.
+Поэтому xClouds предоставляет базовые и расширенные возможности для работы с прокси. К примеру, мы доработали 
+Selenium таким образом, чтобы вы могли использовать прокси с авторизацией. Вы можете использовать как свои прокси,
+так и приобрести у нас residential прокси в поддержкой многих стран. 
+
+Ниже готовые примеры для работы с прокси через Selenium, Playwright, Puppeteer и CDP.
 
 ## Что понадобится
 
-- [API ключ для CDP](https://xclouds.dev/ru/puppeteer/get-started/) из личного кабинета на xClouds
-- Данные прокси-сервера в формате `http://user:password@proxy.server.com:8080` или `https://user:password@proxy.server.com:8443`.
-Внимание: proxy.server.com — это вымышленный сервер для примеров, используйте вместо него настоящий прокси-сервер.
-- Установленные на вашем ПК Puppeteer или Playwright:
+- Данные прокси-сервера в формате `http://proxy.server.com:8080`, `http://user:password@proxy.server.com:8080` или `https://user:password@proxy.server.com:8443`.
+- Установленные на вашем ПК Puppeteer, Playwright или Selenium
+- API ключ: [Puppeteer](https://xclouds.dev/ru/puppeteer/get-started/), [Playwright](https://xclouds.dev/ru/puppeteer/get-started/), [Selenium](https://xclouds.dev/ru/selenium/get-started/)
+
+Наш пример посещает сайт `https://bin.xclouds.dev/ip` и печатает IP. Если прокси работает, то он отобразит адрес прокси-сервера.
 
 <!-- tabs:start -->
 #### **Puppeteer**
@@ -22,33 +25,40 @@ xClouds поддерживает работу с proxy. Это означает,
 npm install puppeteer
 ```
 
-#### **Playwright**
-
-```bash
-npm install playwright@1.58
-```
-<!-- tabs:end -->
-
-## Базовый пример
-
-Начнём с простого теста. Всё что он делает — посещает сайт `https://bin.xclouds.dev/ip` и печатает наш IP.
-Если мы посетим этот сайт через прокси, то он отобразит IP адрес прокси-сервера.
-
-<!-- tabs:start -->
-#### **Puppeteer**
-
-[puppeteer_proxy_cdp.js](../../code_examples/third_party_proxies/javascript/puppeteer_proxy_cdp.js ':include :type=code javascript')
-
-#### **Playwright**
-
-[playwright_proxy_cdp.js](../../code_examples/third_party_proxies/javascript/playwright_proxy_cdp.js ':include :type=code javascript')
-<!-- tabs:end -->
+[puppeteer_proxy_cdp.js](../../code_examples/puppeteer/javascript/puppeteer_proxy_cdp.js ':include :type=code javascript')
 
 Запускаем этот скрипт через консоль:
 
 ```bash
 node ./proxy_via_cdp.js
 ```
+
+#### **Playwright**
+
+```bash
+npm install playwright@1.58
+```
+[playwright_proxy_cdp.js](../../code_examples/playwright/javascript/playwright_proxy_cdp.js ':include :type=code javascript')
+
+Запускаем этот скрипт через консоль:
+
+```bash
+node ./proxy_via_cdp.js
+```
+
+#### **Selenium**
+
+```bash
+pip install selenium urllib3
+```
+
+[proxy_via_selenium.py](../../code_examples/selenium/python/proxy.py ':include :type=code python')
+Запускаем этот скрипт через консоль:
+
+```bash
+python ./proxy_via_selenium.py
+```
+<!-- tabs:end -->
 
 
 ## Расширенный пример с передачей заголовков и cookies
@@ -66,11 +76,11 @@ node ./proxy_via_cdp.js
 <!-- tabs:start -->
 #### **Puppeteer**
 
-[puppeteer_proxy_headers_cookie.js](../../code_examples/third_party_proxies/javascript/puppeteer_proxy_headers_cookie.js ':include :type=code javascript')
+[puppeteer_proxy_headers_cookie.js](../../code_examples/puppeteer/javascript/puppeteer_proxy_headers_cookie.js ':include :type=code javascript')
 
 #### **Playwright**
 
-[playwright_proxy_headers_cookie.js](../../code_examples/third_party_proxies/javascript/playwright_proxy_headers_cookie.js ':include :type=code javascript')
+[playwright_proxy_headers_cookie.js](../../code_examples/playwright/javascript/playwright_proxy_headers_cookie.js ':include :type=code javascript')
 <!-- tabs:end -->
 
 Запуск расширенного примера:

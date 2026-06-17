@@ -7,7 +7,7 @@
   - [Использование dev-туннеля](/ru/examples/dev_tunnel)
 
 - **Расширенные примеры**
-  - [Работа через прокси](/ru/examples/third_party_proxies)
+  - [Работа через прокси](/ru/examples/proxy)
   - [Создание скриншотов и PDF](/ru/cookbook/screenshots_and_pdf.md)
   - [Передача Cookies](/ru/cookbook/pass_cookies)
   - [CI/CD Github](/ru/examples/github_actions_ci.md)
